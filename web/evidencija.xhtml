@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Evidencija</title>
+        </f:facet>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+
+            <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                <h1>Evidencija</h1>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                <h5>Vlatko Špoljarić 2014</h5>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="225">
+                <p:menu>
+                    <p:submenu label="Pregled">
+                        <p:menuitem value="Upravljački dio" outcome="upravljackiDio" />                  
+                    </p:submenu>
+                </p:menu>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <h:form>
+                    <p:dataTable var="korisnici" value="#{evidencija.listaKorisnika}">
+                        <f:facet name="header">
+                            Evidencija korisnika
+                        </f:facet>
+                        <p:column style="width:16px">
+                            <p:rowToggler />
+                        </p:column>
+                        <p:column headerText="Id">
+                            <h:outputText value="#{korisnici.id}" />
+                        </p:column>
+                        <p:column headerText="Korisničko ime">
+                            <h:outputText value="#{korisnici.korisnickoIme}" />
+                        </p:column>
+                        <p:column headerText="Ime">
+                            <h:outputText value="#{korisnici.ime}" />
+                        </p:column>
+                        <p:column headerText="Prezime">
+                            <h:outputText value="#{korisnici.prezime}" />
+                        </p:column>
+                        <p:column headerText="Email">
+                            <h:outputText value="#{korisnici.email}" />
+                        </p:column>
+
+                        <p:rowExpansion>
+                            <p:dataTable var="portfelji" value="#{evidencija.getListaPortfelja(korisnici.korisnickoIme)}">
+
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{portfelji.id}" />
+                                </p:column>
+                                <p:column headerText="Naziv">
+                                    <h:outputText value="#{portfelji.naziv}" />
+                                </p:column>
+
+
+                                <p:rowExpansion>
+                                    <p:dataTable var="adrese" value="#{evidencija.getListaAdresa(korisnici.korisnickoIme, portfelji.naziv)}">
+
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{adrese.id}" />
+                                        </p:column>
+                                        <p:column headerText="Naziv">
+                                            <h:outputText value="#{adrese.naziv}" />
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:rowExpansion>
+                            </p:dataTable>
+
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
+
